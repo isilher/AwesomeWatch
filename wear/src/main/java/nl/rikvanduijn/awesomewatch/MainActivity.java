@@ -15,6 +15,7 @@ public class MainActivity extends Activity {
     private TextView mTextView;
     private static final int SPEECH_REQUEST_CODE = 0;
     private static final String TAG = "speechDebug";
+    public final static String EXTRA_MESSAGE = "nl.rikvanduijn.awesomewatch.MESSAGE";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,18 +45,23 @@ public class MainActivity extends Activity {
                     RecognizerIntent.EXTRA_RESULTS);
             String spokenText = results.get(0);
             Log.v(TAG ,spokenText);
+            String message;
             if(spokenText.equals("double o7"))
             {
                 // give welcome message
                 Log.v(TAG, "it is indeed double o7");
-                Intent intent = new Intent(this, WelcomeAgentActivity.class);
-                startActivity(intent);
+                message = new String("Welcome Inspire Agent!");
             }
             else
             {
                 // give unauthorized message
                 Log.v(TAG, "it is NOT double o7");
+                message = new String("Is that you, Peter Pan?");
             }
+            Intent intent = new Intent(this, WelcomeAgentActivity.class);
+            intent.putExtra(EXTRA_MESSAGE, message);
+            startActivity(intent);
+
             // Do something with spokenText
         }
         super.onActivityResult(requestCode, resultCode, data);
